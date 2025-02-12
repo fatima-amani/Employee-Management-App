@@ -56,6 +56,7 @@ public class EmployeeController {
 
     @PostMapping("/{employeeId}/skills/{skillId}")
     public ResponseEntity<String> addSkillToEmployee(@PathVariable Long employeeId, @PathVariable Long skillId) {
+        log.info("Adding skill with ID: {} to employee with ID: {}", skillId, employeeId);
         employeeService.addSkill(employeeId, skillId);
         return ResponseEntity.ok("Skill added to employee successfully");
     }
@@ -68,23 +69,27 @@ public class EmployeeController {
 
     @PostMapping("/{employeeId}/projects/{projectId}")
     public ResponseEntity<String> assignProjectToEmployee(@PathVariable Long employeeId, @PathVariable Long projectId) {
+        log.info("Assigning project with ID: {} to employee with ID: {}", projectId, employeeId);
         employeeService.assignProject(employeeId, projectId);
         return ResponseEntity.ok("Employee assigned to project successfully");
     }
 
     @DeleteMapping("/{employeeId}/projects/{projectId}")
     public ResponseEntity<String> removeEmployeeFromProject(@PathVariable Long employeeId, @PathVariable Long projectId) {
+        log.info("Removing employee with ID: {} from project with ID: {}", employeeId, projectId);
         employeeService.removeProject(employeeId, projectId);
         return ResponseEntity.ok("Employee removed from project successfully");
     }
 
     @GetMapping("/{id}/profile")
     public ResponseEntity<EmployeeDTO> getEmployeeProfile(@PathVariable Long id) {
+        log.info("Fetching profile for employee with ID: {}", id);
         return ResponseEntity.ok(employeeService.getEmployeeProfile(id));
     }
 
     @PutMapping("/{id}/profile")
     public ResponseEntity<Employee> updateEmployeeProfile(@PathVariable Long id, @RequestBody EmployeeDTO employeeDTO) {
+        log.info("Updating profile for employee with ID: {}", id);
         return ResponseEntity.ok(employeeService.updateEmployeeProfile(id, employeeDTO));
     }
 

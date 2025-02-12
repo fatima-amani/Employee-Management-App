@@ -10,6 +10,9 @@ import com.fatima.Employee_Management_App.repository.ProjectRepository;
 import com.fatima.Employee_Management_App.repository.SkillRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,6 +31,7 @@ public class EmployeeService {
     private ProjectRepository projectRepository;
 
     // Create Employee
+    @CachePut(value="employee", key="#employee.id")
     public Employee createEmployee(Employee employee) {
         return employeeRepository.save(employee);
     }
@@ -38,12 +42,14 @@ public class EmployeeService {
     }
 
     // Get Employee By ID
+    @Cacheable(value="employee", key="#id")
     public Employee getEmployeeById(Long id) {
         return employeeRepository.findById(id)
                 .orElseThrow(() -> new EmployeeNotFoundException("Employee not found with ID: " + id));
     }
 
     // Update Employee By ID
+    @CachePut(value="employee", key="#employee.id")
     public Employee updateEmployee(Long id, Employee updatedEmployee) {
         Employee existingEmployee = employeeRepository.findById(id)
                 .orElseThrow(() -> new EmployeeNotFoundException("Employee not found with ID: " + id));
@@ -57,6 +63,7 @@ public class EmployeeService {
     }
 
     // Delete Employee By ID
+    @CacheEvict(value="employee", key ="#id")
     public void deleteEmployee(Long id) {
         if (!employeeRepository.existsById(id)) {
             throw new EmployeeNotFoundException("Employee not found with ID: " + id);
