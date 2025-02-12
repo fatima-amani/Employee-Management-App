@@ -18,35 +18,35 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-    // Create Employee
+
     @PostMapping
     public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) {
         log.info("Creating Employee: " + employee);
         return ResponseEntity.ok(employeeService.createEmployee(employee));
     }
 
-    // Get All Employees
+
     @GetMapping
     public ResponseEntity<List<Employee>> getAllEmployees() {
         log.info("Fetching all employees");
         return ResponseEntity.ok(employeeService.getAllEmployees());
     }
 
-    // Get Employee By ID
+
     @GetMapping("/{id}")
     public ResponseEntity<Employee> getEmployee(@PathVariable Long id) {
         log.info("Fetching employee with id: " + id);
         return ResponseEntity.ok(employeeService.getEmployeeById(id));
     }
 
-    // Update Employee By ID
+
     @PutMapping("/{id}")
     public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee updatedEmployee) {
         log.info("Updating employee with id: " + id);
         return ResponseEntity.ok(employeeService.updateEmployee(id, updatedEmployee));
     }
 
-    // Delete Employee By ID
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteEmployee(@PathVariable Long id) {
         log.info("Deleting employee with ID: {}", id);
